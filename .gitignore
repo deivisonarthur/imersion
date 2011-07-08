@@ -1,0 +1,9 @@
+.project
+.pydevproject
+.settings
+*.~
+*.*~
+.DS_Store
+.buildpath
+migrations/development/
+migrations/production/
