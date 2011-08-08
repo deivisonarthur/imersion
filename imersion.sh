@@ -11,8 +11,8 @@ export IMERSIONPATH=`pwd -P`
 echo "=> O token para esta execução é: $TOKEN"
 
 # Forma o nome do arquivo SQL
-export FILEDEVELOPMENT="${IMERSIONPATH}/migrations/development/${development_mysql_database}-${TOKEN}.sql"
-export FILEPRODUCTION="${IMERSIONPATH}/migrations/production/${production_mysql_database}-${TOKEN}.sql"
+export FILEDEVELOPMENT="${IMERSIONPATH}/migrations/development/${development_mysql_database}-${TOKEN}.sql.gz"
+export FILEPRODUCTION="${IMERSIONPATH}/migrations/production/${production_mysql_database}-${TOKEN}.sql.gz"
 
 # Força a criação dos diretórios
 mkdir -p "${IMERSIONPATH}/migrations/development"
@@ -39,14 +39,14 @@ backup_databases(){
 	
 	# DESENVOLVIMENTO
 	echo "[DESENVOLVIMENTO] => Realizando backup do banco de dados MySQL"
-	if ( mysqldump --add-drop-table --complete-insert -h ${development_mysql_host} -u ${development_mysql_user} -p${development_mysql_password} ${development_mysql_database} > $FILEDEVELOPMENT ); then
+	if ( mysqldump --add-drop-table --complete-insert -h ${development_mysql_host} -u ${development_mysql_user} -p${development_mysql_password} ${development_mysql_database} | gzip > $FILEDEVELOPMENT ); then
 		echo "[DESENVOLVIMENTO] => Backup realizado com sucesso!"
 	
 	else exit 1; fi
 	
 	# PRODUÇÃO
 	echo "[PRODUÇÃO] => Realizando backup do banco de dados MySQL"
-	if( mysqldump --add-drop-table --complete-insert -h ${production_mysql_host} -u ${production_mysql_user} -p${production_mysql_password} ${production_mysql_database} > $FILEPRODUCTION ); then
+	if( mysqldump --add-drop-table --complete-insert -h ${production_mysql_host} -u ${production_mysql_user} -p${production_mysql_password} ${production_mysql_database} | gzip > $FILEPRODUCTION ); then
 		echo "[PRODUÇÃO] => Backup realizado com sucesso!"
 	
 	else exit 1; fi
@@ -64,7 +64,7 @@ if [ "$task" == '1' ]; then
 	
 	# Atualiza o banco de dados de DESENVOLVIMENTO usando o arquivo de backup de PRODUÇÂO
 	echo "[DESENVOLVIMENTO] => Atualizando dados do banco de dados MySQL"
-	if( mysql -h ${development_mysql_host} -u ${development_mysql_user} -p${development_mysql_password} ${development_mysql_database} < $FILEPRODUCTION ); then
+	if( gunzip < $FILEPRODUCTION | mysql -h ${development_mysql_host} -u ${development_mysql_user} -p${development_mysql_password} ${development_mysql_database} ); then
 		echo "[DESENVOLVIMENTO] => Atualização concluída com sucesso!"
 	
 	else exit 1; fi
@@ -93,7 +93,7 @@ elif [ "$task" == '2' ]; then
 	
 	# Atualiza o banco de dados de PRODUÇÃO usando o arquivo de backup de DESENVOLVIMENTO
 	echo "[PRODUÇÃO] => Atualizando dados do banco de dados MySQL"
-	if( mysql -h ${production_mysql_host} -u ${production_mysql_user} -p${production_mysql_password} ${production_mysql_database} < $FILEDEVELOPMENT ); then
+	if( gunzip < $FILEDEVELOPMENT |	mysql -h ${production_mysql_host} -u ${production_mysql_user} -p${production_mysql_password} ${production_mysql_database} ); then
 		echo "[PRODUÇÃO] => Atualização concluída com sucesso!"
 	
 	else exit 1; fi
@@ -153,8 +153,8 @@ elif [ "$task" == '4' ]; then
 	fi
 	
 	# Forma o nome do arquivo SQL
-	restoreDEVELOPMENT="${IMERSIONPATH}/migrations/development/${development_mysql_database}-${version}.sql"
-	restorePRODUCTION="${IMERSIONPATH}/migrations/production/${production_mysql_database}-${version}.sql"
+	restoreDEVELOPMENT="${IMERSIONPATH}/migrations/development/${development_mysql_database}-${version}.sql.gz"
+	restorePRODUCTION="${IMERSIONPATH}/migrations/production/${production_mysql_database}-${version}.sql.gz"
 	
 	# Checa se existe o backup de desenvolvimento
 	if [ ! -f $restoreDEVELOPMENT ]; then
@@ -174,14 +174,14 @@ elif [ "$task" == '4' ]; then
 	
 	# Restaura o banco de dados de DESENVOLVIMENTO
 	echo "[RESTAURAÇÃO] => Realizando a restauração para o banco de dados de desenvolvimento"
-	if( mysql -h ${development_mysql_host} -u ${development_mysql_user} -p${development_mysql_password} ${development_mysql_database} < $restoreDEVELOPMENT ); then
+	if( gunzip < $restoreDEVELOPMENT | mysql -h ${development_mysql_host} -u ${development_mysql_user} -p${development_mysql_password} ${development_mysql_database} ); then
 		echo "[DESENVOLVIMENTO] => Restauração realizada com sucesso!"
 	
 	else exit 1; fi
 	
 	# Restaura o banco de dados de DESENVOLVIMENTO
 	echo "[RESTAURAÇÃO] => Realizando a restauração para o banco de dados de produção"
-	if( mysql -h ${production_mysql_host} -u ${production_mysql_user} -p${production_mysql_password} ${production_mysql_database} < $restorePRODUCTION ); then
+	if( gunzip < $restorePRODUCTION | mysql -h ${production_mysql_host} -u ${production_mysql_user} -p${production_mysql_password} ${production_mysql_database} ); then
 		echo "[PRODUÇÃO] => Restauração realizada com sucesso!"
 	
 	else exit 1; fi
