@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Lê as configurações
-source "config/app.conf"
+source "app.conf"
 
 # Monta as informações necessárias
 export TOKEN=`date +%Y%m%d%H%M%s`
