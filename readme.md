@@ -5,7 +5,7 @@
 Faça *chmod +x imersion.sh* e depois execute *./imersion.sh*. Nesse momento você escolha uma tarefa e parte pro abraço... XD
 
 #### E agora?
-Agora você evolui ele (implementar GIT no código por exemplo), depois dá o push pro repositório oficial :)
+Agora você evolui ele (implementar GIT no código por exemplo), depois dá o push pro [repositório oficial](https://github.com/mateus007/imersion) :)
 
 #### Changelog ####
 ##### 1.0
