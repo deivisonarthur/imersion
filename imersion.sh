@@ -1,19 +1,19 @@
 #!/bin/sh
-# Imersion 1.0
+# Imersion 1.0.1
 
 # Lê as configurações
 source "app.conf"
 
 # Monta as informações necessárias
-export TOKEN=`date +%Y-%m-%d-%H-%M-%s`
+export TOKEN=`date +%s`
 export IMERSIONPATH=`pwd -P`
 
 # Exibe o token gerado
 echo "=> O token para esta execução é: $TOKEN"
 
 # Forma o nome do arquivo SQL
-export FILEDEVELOPMENT="${IMERSIONPATH}/migrations/development/${TOKEN}.sql.gz"
-export FILEPRODUCTION="${IMERSIONPATH}/migrations/production/${TOKEN}.sql.gz"
+export FILEDEVELOPMENT="${IMERSIONPATH}/migrations/development/${development_codename}-${TOKEN}.sql.gz"
+export FILEPRODUCTION="${IMERSIONPATH}/migrations/production/${production_codename}-${TOKEN}.sql.gz"
 
 # Força a criação dos diretórios
 mkdir -p "${IMERSIONPATH}/migrations/development"
@@ -155,8 +155,8 @@ elif [ "$task" == '4' ]; then
 	fi
 
 	# Forma o nome do arquivo SQL
-	restoreDEVELOPMENT="${IMERSIONPATH}/migrations/development/${version}.sql.gz"
-	restorePRODUCTION="${IMERSIONPATH}/migrations/production/${version}.sql.gz"
+	restoreDEVELOPMENT="${IMERSIONPATH}/migrations/development/${development_codename}-${version}.sql.gz"
+	restorePRODUCTION="${IMERSIONPATH}/migrations/production/${production_codename}-${version}.sql.gz"
 
 	# Checa se existe o backup de desenvolvimento
 	if [ ! -f $restoreDEVELOPMENT ]; then
