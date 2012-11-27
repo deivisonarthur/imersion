@@ -75,7 +75,7 @@ if [ "$task" == '1' ]; then
 	if [ "$on_development" != "" ]; then
 
 		echo "[DESENVOLVIMENTO] => Executando SQL on_development";
-		if( eval ${development_conection} -e "$on_development" ); then
+		if( eval ${development_conection} -e \"$on_development\" ); then
 			echo "[DESENVOLVIMENTO] => SQL executada com sucesso!"
 
 		else exit 1; fi
@@ -104,7 +104,7 @@ elif [ "$task" == '2' ]; then
 	if [ "$on_production" != "" ]; then
 
 		echo "[PRODUÇÃO] => Executando SQL on_production";
-		if( eval ${production_connection} -e "$on_production" ); then
+		if( eval ${production_connection} -e \"$on_production\" ); then
 			echo "[PRODUÇÃO] => SQL executada com sucesso!"
 
 		else exit 1; fi
