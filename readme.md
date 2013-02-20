@@ -1,4 +1,4 @@
-# Imersion 1.0.1 - Shell MySQL deploy system
+# Imersion 1.0.2 - Shell MySQL deploy system
 
 #### Não é um script inteligente, mas funciona que é uma beleza!
 
@@ -9,9 +9,12 @@ Agora você evolui ele (implementar GIT no código por exemplo), depois dá o pu
 
 #### Changelog
 
+##### 1.0.2
+- Fix para SQLs on_*, que agora também podem ter comentários.
+
 ##### 1.0.1
 - Adicionado prefixo ao nome dos arquivos;
-- Número do token simplificado mais ainda;
+- Número do token simplificado mais ainda.
 
 ##### 1.0
 - Primeira versão descente;
