@@ -1,5 +1,5 @@
-#!/bin/sh
-# Imersion 1.0.2
+#!/bin/bash
+# Imersion 1.0.3
 
 # Lê as configurações
 source "app.conf"

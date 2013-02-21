@@ -1,4 +1,4 @@
-# Imersion 1.0.2 - Shell MySQL deploy system
+# Imersion 1.0.3 - Shell MySQL deploy system
 
 #### Não é um script inteligente, mas funciona que é uma beleza!
 
@@ -8,6 +8,9 @@ Faça *chmod +x imersion.sh* e depois execute *./imersion.sh*. Nesse momento voc
 Agora você evolui ele (implementar GIT no código por exemplo), depois dá o push pro [repositório oficial](https://github.com/mateus007/imersion) :)
 
 #### Changelog
+
+##### 1.0.3
+- Fix para modo de execução em terminais Linux.
 
 ##### 1.0.2
 - Fix para SQLs on_*, que agora também podem ter comentários.
