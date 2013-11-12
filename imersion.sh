@@ -5,7 +5,7 @@
 source "app.conf"
 
 # Monta as informações necessárias
-export TOKEN=`date +%s`
+export TOKEN=`date +%Y-%m-%d-%H-%M-%S`
 export IMERSIONPATH=`pwd -P`
 
 # Exibe o token gerado
