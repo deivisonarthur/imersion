@@ -5,5 +5,3 @@
 *.*~
 .DS_Store
 .buildpath
-migrations/development/
-migrations/production/
